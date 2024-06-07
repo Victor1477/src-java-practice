@@ -1,9 +1,13 @@
 package com.java.practice;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.security.cert.X509Certificate;
 
 public class RequestThread implements Runnable {
 
@@ -26,7 +30,7 @@ public class RequestThread implements Runnable {
                     builder.header(header.getName(), header.getValue());
                 });
                 HttpRequest request = builder.method(this.params.getRequestMethod(), HttpRequest.BodyPublishers.ofString(this.params.getRequestBody())).build();
-                HttpClient client = HttpClient.newBuilder().build();
+                HttpClient client = HttpClient.newBuilder().sslContext(this.getSSLContext()).build();
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
                 if (response.statusCode() >= 400) {
@@ -45,5 +49,28 @@ public class RequestThread implements Runnable {
             }
         }
         Logger.log(this.name + "Finished.");
+    }
+
+    public SSLContext getSSLContext() {
+        try {
+            TrustManager[] trustAllCerts = new TrustManager[]{
+                    new X509TrustManager() {
+                        public X509Certificate[] getAcceptedIssuers() {
+                            return new X509Certificate[]{};
+                        }
+
+                        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                        }
+
+                        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                        }
+                    }
+            };
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            return sslContext;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
