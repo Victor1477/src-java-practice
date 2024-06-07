@@ -1,0 +1,16 @@
+1- compilar os .java com o javac e manter a hierarquia de pacotes, exemplo: com/java/practice/*.java
+
+    Obs: Se for usar alguma lib .jar adicionar o -cp e o caminho para as libs separados por ; Exemplo:
+         javac -cp .;lib\example;lib\example com/java/practice/*.java
+
+2- criar a pasta META-INF e o arquivo MANIFEST.MF dentro dela;
+
+3- Arquivo MANIFEST.MF
+
+Manifest-Version: 1.0
+Main-Class: com.java.practice.Main
+Class-Path: lib\example lib\example
+
+Obs: Lembrar de pular uma linha após a ultima para que a JVM reconheça o manifesto.
+
+5- Depois zipar como .zip e substituir a extensão para .jar
