@@ -1,7 +1,10 @@
 1- compilar os .java com o javac e manter a hierarquia de pacotes, exemplo: com/java/practice/*.java
 
-    Obs: Se for usar alguma lib .jar adicionar o -cp e o caminho para as libs separados por ; Exemplo:
+    Obs: Se for usar alguma lib externa .jar adicionar o -cp e o caminho para as libs separados por ; Exemplo:
          javac -cp .;lib\example;lib\example com/java/practice/*.java
+
+1.1- Caso for usar a libs e quiser manter a aplicação em apenas um .jar, extrair as libs e manter as pastas na raiz
+     mantendo a hierarquia dos pacotes
 
 2- criar a pasta META-INF e o arquivo MANIFEST.MF dentro dela;
 
