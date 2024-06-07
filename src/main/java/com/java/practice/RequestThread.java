@@ -8,6 +8,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.security.cert.X509Certificate;
+import java.util.Optional;
 
 public class RequestThread implements Runnable {
 
@@ -29,7 +30,16 @@ public class RequestThread implements Runnable {
                 params.getHeaders().forEach(header -> {
                     builder.header(header.getName(), header.getValue());
                 });
-                HttpRequest request = builder.method(this.params.getRequestMethod(), HttpRequest.BodyPublishers.ofString(this.params.getRequestBody())).build();
+
+                String body = this.params.getRequestBody();
+
+                Optional<Header> contentType = this.params.getHeaders().stream().filter(header -> header.name.equals("Content-Type")).findFirst();
+
+                if (contentType.isPresent() && contentType.get().value.equals("application/json")) {
+                    body = body.replaceAll("'", "\"");
+                }
+
+                HttpRequest request = builder.method(this.params.getRequestMethod(), HttpRequest.BodyPublishers.ofString(body)).build();
                 HttpClient client = HttpClient.newBuilder().sslContext(this.getSSLContext()).build();
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
