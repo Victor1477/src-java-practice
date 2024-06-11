@@ -36,11 +36,9 @@ public class FileManager {
         } catch (Exception e) {
             System.out.println("Fail to create sucesses log file.");
         }
-        try {
-            PrintWriter pw = new PrintWriter(new File("fails.txt"));
+        try (PrintWriter pw = new PrintWriter(new File("fails.txt"))) {
             pw.println(fails);
             pw.flush();
-            pw.close();
         } catch (Exception e) {
             System.out.println("Fail to create fails log file.");
         }
