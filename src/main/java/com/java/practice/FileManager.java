@@ -19,11 +19,9 @@ public class FileManager {
     }
 
     public boolean generateConfigFile() {
-        try {
-            PrintWriter pw = new PrintWriter(new File("params.json"));
+        try (PrintWriter pw = new PrintWriter(new File("params.json"))) {
             pw.println(new ObjectMapper().writeValueAsString(new Params()));
             pw.flush();
-            pw.close();
             return true;
         } catch (Exception e) {
             System.out.println("Fail to create config file.");
@@ -31,12 +29,10 @@ public class FileManager {
         }
     }
 
-    public void generateLogsFile(String sucesses, String fails) {
-        try {
-            PrintWriter pw = new PrintWriter(new File("sucesses.txt"));
+    public void generateLogsFiles(String sucesses, String fails) {
+        try (PrintWriter pw = new PrintWriter(new File("sucesses.txt"))) {
             pw.println(sucesses);
             pw.flush();
-            pw.close();
         } catch (Exception e) {
             System.out.println("Fail to create sucesses log file.");
         }

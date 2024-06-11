@@ -21,7 +21,7 @@ public class Main {
             server.start();
             Logger.log("Server Listening on port: " + serverPort);
             Logger.log("Call http://localhost:" + serverPort + "/generateConfigFile to generate params config file.");
-            Logger.log("Call http://localhost:" + serverPort + "/generateLogsFiles to generate log files.");
+            Logger.log("Call http://localhost:" + serverPort + "/generateLogs to generate log files.");
             Logger.log("Call http://localhost:" + serverPort + "/start to start the requests.");
         } catch (IOException e) {
             throw new RuntimeException("Server Failed on Initialization");
@@ -59,7 +59,7 @@ public class Main {
                 }
                 break;
             }
-            case "/generateLogsFiles": {
+            case "/generateLogs": {
                 Logger.generateLogs();
             }
         }

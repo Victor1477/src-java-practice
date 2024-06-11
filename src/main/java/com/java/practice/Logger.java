@@ -30,7 +30,7 @@ public class Logger {
             failsStr.append(fail + "\n\n\n\n\n");
         });
 
-        new FileManager().generateLogsFile(sucessesStr.toString(), failsStr.toString());
+        new FileManager().generateLogsFiles(sucessesStr.toString(), failsStr.toString());
     }
 
     static void log(String msg) {
